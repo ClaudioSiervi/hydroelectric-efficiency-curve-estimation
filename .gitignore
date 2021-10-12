@@ -1,0 +1,10 @@
+
+.DS_Store
+.idea/*
+functions/plots/__pycache__/*
+functions/statistics/__pycache__/*
+functions/__pycache__/*
+
+Pipfile
+Pipfile.lock
+
