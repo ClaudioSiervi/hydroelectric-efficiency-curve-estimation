@@ -34,7 +34,7 @@ def jarque_pvalue(estimates):
     return jarque_bera(estimates.resid)[1]
 
 
-def get_stats_from_one_hill_curve_fitted(
+def stats_from_one_hill_curve_fitted(
         hill_curve: DataFrame,
         statistics: DataFrame = DataFrame(),
         N: int = 3,
@@ -80,10 +80,10 @@ def get_stats_from_all_hill_curves(N: int = 3) -> tuple:
     uhe1_data, uhe2_data, uhe3_data, uhe4_data = read_hill_curve_dataset()
 
     # get stats for each hill curve sample
-    stats_uhe1 = get_stats_from_one_hill_curve_fitted(hill_curve=uhe1_data, N=N)
-    stats_uhe2 = get_stats_from_one_hill_curve_fitted(hill_curve=uhe2_data, N=N)
-    stats_uhe3 = get_stats_from_one_hill_curve_fitted(hill_curve=uhe3_data, N=N)
-    stats_uhe4 = get_stats_from_one_hill_curve_fitted(hill_curve=uhe4_data, N=N)
+    stats_uhe1 = stats_from_one_hill_curve_fitted(hill_curve=uhe1_data, N=N)
+    stats_uhe2 = stats_from_one_hill_curve_fitted(hill_curve=uhe2_data, N=N)
+    stats_uhe3 = stats_from_one_hill_curve_fitted(hill_curve=uhe3_data, N=N)
+    stats_uhe4 = stats_from_one_hill_curve_fitted(hill_curve=uhe4_data, N=N)
 
     # transform r_press stats below zero
     stats_uhe1.loc[stats_uhe1["r_press"] < 0, "r_press"] = 0

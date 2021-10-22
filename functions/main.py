@@ -9,7 +9,7 @@ from functions.plots.plot_estimates import plot_estimated_metrics
 from functions.read_xls import read_hill_curve_dataset
 from functions.statistics.model import get_polynomial_features, fit_hill_curve
 from functions.statistics.stats import (
-    get_stats_from_all_hill_curves, get_stats_from_one_hill_curve_fitted
+    get_stats_from_all_hill_curves, stats_from_one_hill_curve_fitted
 )
 
 
@@ -25,7 +25,7 @@ def read_data():
     )
     print(results.resid)
 
-    r = get_stats_from_one_hill_curve_fitted(hill_curve=uhe1_data, N=5)
+    r = stats_from_one_hill_curve_fitted(hill_curve=uhe1_data, N=5)
     print(list(r))
     print(r["fvalue"])
 

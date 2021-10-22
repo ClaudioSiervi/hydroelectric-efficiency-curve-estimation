@@ -58,6 +58,7 @@ def plot_estimated_metrics(turbine_name, statistics, degree):
     )
     # fig1.autofmt_xdate(rotation=90)
     fig1.tight_layout()
+    plt.show()
 
     fig2 = plt.figure(figsize=plt.figaspect(0.4))
     ax4 = fig2.add_subplot(1, 3, 1)  # "    4
@@ -68,3 +69,4 @@ def plot_estimated_metrics(turbine_name, statistics, degree):
     plot_statistics_dots_line(metric6, statistics, ax6, degree)
     # fig2.autofmt_xdate(rotation=90)
     fig2.tight_layout()
+    plt.show()
