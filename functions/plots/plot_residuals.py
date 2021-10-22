@@ -4,15 +4,14 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-### gráficos de dispersão dos resíduos
 def plot_regression_residuals(
-        hill_curve, statistics, index_row
+        hill_curve, statistics
 ) -> None:
 
     data_dict = {
         'queda': hill_curve["queda"],
         'vazao': hill_curve["vazao"],
-        'residuo': statistics.resid.iloc[0].iloc[0]
+        'residuo': statistics.resid.values[0]
     }
 
     residuals = pd.DataFrame(data=data_dict)
@@ -24,10 +23,9 @@ def plot_regression_residuals(
 
     # First subplot - scatter
     ax = fig.add_subplot(1, 3, 1)
-
     ax.scatter(queda, residuo, color="C7")
 
-    # plt.title("Dispersão queda x resíduo");
+    plt.title("Dispersão queda x resíduo");
     plt.xlabel("Queda")
     plt.ylabel("Resíduo")
     plt.tick_params(labelsize=8)
@@ -35,7 +33,8 @@ def plot_regression_residuals(
     # Second subplot - scatter
     ax = fig.add_subplot(1, 3, 2)
     ax.scatter(vazao, residuo, color="C7")
-    # plt.title("Dispersão vazão x resíduo");
+
+    plt.title("Dispersão vazão x resíduo");
     plt.xlabel("Vazão")
     plt.ylabel("Resíduo")
     plt.tick_params(labelsize=8)
@@ -55,7 +54,8 @@ def plot_regression_residuals(
         line="45",
         alpha=0.3
     )
-    # plt.title("Nomal QQplot")
+    plt.title("Normal QQplot")
 
     fig.tight_layout()
+    plt.show()
 
