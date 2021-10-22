@@ -11,6 +11,7 @@ class Turbine:
     net_head: DataFrame
     water_flow: DataFrame
     efficiency: DataFrame
+    stats: List[DataFrame]
 
     def load_data(self) -> None:
         from functions.read_xls import read_hill_curve
@@ -32,7 +33,8 @@ class Turbine:
         )
 
     def scatter_plot_3d(self) -> None:
-        from functions.plots.plot_hill_curves import hill_curve_scatter
+        from functions.plots.plot_hill_curves import\
+            hill_curve_scatter
 
         hill_curve_scatter(
             self.net_head,
@@ -40,25 +42,36 @@ class Turbine:
             self.efficiency
         )
 
-    def stats(self, degree: int = 3) -> List[DataFrame]:
-        from functions.statistics.stats import stats_from_one_hill_curve_fitted
+    def calculate_stats(self, degree: int = 3) -> List[DataFrame]:
+        from functions.statistics.stats import\
+            stats_from_one_hill_curve_fitted
 
-        return stats_from_one_hill_curve_fitted(
+        self.stats = stats_from_one_hill_curve_fitted(
             hill_curve=self.hill_curve, N=degree
         )
 
     def plot_estimated_metrics(self,  degree: int = 3) -> None:
-        from functions.plots.plot_estimates import plot_estimated_metrics
+        from functions.plots.plot_estimates import\
+            plot_estimated_metrics
 
         plot_estimated_metrics(
             turbine_name=self.name,
-            statistics=self.stats(degree=degree),
+            statistics=self.stats,
             degree=degree
         )
 
-    def __init__(self) -> None:
+    def plot_regression_residuals(self) -> None:
+        from functions.plots.plot_residuals import\
+            plot_regression_residuals
+
+        plot_regression_residuals(self.hill_curve, self.stats)
+
+    def __init__(self,  degree: int = 3) -> None:
         self.name = "Turbine A"
         self.type = "Type no specified"
+
+        self.load_data()
+        self.calculate_stats(degree=degree)
 
     def __str__(self) -> str:
         return f"{self.name}: {self.type}"
@@ -66,7 +79,7 @@ class Turbine:
 
 # turb = Turbine()
 #
-# print(turb)
+# print(turb.stats)
 # turb.load_data()
 # turb.net_head.plot()
 # turb.pair_plot()
