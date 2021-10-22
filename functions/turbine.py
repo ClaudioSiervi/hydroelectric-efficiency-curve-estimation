@@ -2,6 +2,9 @@ from typing import List
 
 from pandas import DataFrame
 
+import warnings
+warnings.filterwarnings('ignore')
+
 
 class Turbine:
     """Facade to wrapper turbine logic"""
