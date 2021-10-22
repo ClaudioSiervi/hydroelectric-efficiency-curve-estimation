@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-from functions.utils import get_file_path
+from functions.utils import get_image_path
 
 
 def hill_curve_scatter(x, y, z):
@@ -25,7 +25,7 @@ def hill_curve_scatter(x, y, z):
     fig.tight_layout()
 
     plt.savefig(
-        f"{get_file_path()}/hillCurveScatterPlot.png",
+        f"{get_image_path()}/hillCurveScatterPlot.png",
         format="png"
     )
 
