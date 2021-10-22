@@ -3,17 +3,19 @@ from typing import Tuple
 from pandas import DataFrame, read_excel
 from os import path
 
+from functions.utils import get_data_path
+
 
 def read_hill_curve(
         sheet_name: str = "THG1",
-        PATH_DATASET: str = "PATH-TO-FOLDER/hydroelectric-efficiency-curve-estimation/src/data/",
-        WORKBOOK_NAME: str = "DadosExperimento.xls",
+        path_dataset: str = get_data_path(),
+        workbook_name: str = "DadosExperimento.xls",
 ) -> DataFrame:
     """The dataset is in Excel (.xls),
     each sheet of the workbook is a hydropower turbine,
     with Hill Curve data: "net head", "flow", "efficiency. """
 
-    file_path = path.join(PATH_DATASET, WORKBOOK_NAME)
+    file_path = path.join(path_dataset, workbook_name)
 
     uhe_thg = read_excel(file_path, sheet_name=sheet_name)
     uhe_thg.columns = ["queda", "vazao", "rendimento"]

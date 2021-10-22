@@ -8,3 +8,7 @@ functions/__pycache__/*
 Pipfile
 Pipfile.lock
 
+functions/main.py
+
+.vscode/
+
