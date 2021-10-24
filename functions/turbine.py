@@ -1,8 +1,10 @@
+from _ast import If
 from typing import List
 
 from pandas import DataFrame
 
 import warnings
+
 warnings.filterwarnings('ignore')
 
 
@@ -11,6 +13,10 @@ class Turbine:
     name: str
     type: str
     hill_curve: DataFrame
+    five_numbers: DataFrame
+    position_measures: DataFrame
+    dispersion_measures: DataFrame
+    percentile: DataFrame
     net_head: DataFrame
     water_flow: DataFrame
     efficiency: DataFrame
@@ -36,7 +42,7 @@ class Turbine:
         )
 
     def scatter_plot_3d(self) -> None:
-        from functions.plots.plot_hill_curves import\
+        from functions.plots.plot_hill_curves import \
             hill_curve_scatter
 
         hill_curve_scatter(
@@ -45,44 +51,56 @@ class Turbine:
             self.efficiency
         )
 
-    def calculate_stats(self, degree: int = 3) -> List[DataFrame]:
-        from functions.statistics.stats import\
+    def calculate_stats(self, polynomial_degree: int = 3) -> List[DataFrame]:
+        from functions.statistics.stats import \
             stats_from_one_hill_curve_fitted
 
         self.stats = stats_from_one_hill_curve_fitted(
-            hill_curve=self.hill_curve, N=degree
+            hill_curve=self.hill_curve, N=polynomial_degree
         )
 
-    def plot_estimated_metrics(self,  degree: int = 3) -> None:
-        from functions.plots.plot_estimates import\
+    def plot_estimated_metrics(self, polynomial_degree: int = 3) -> None:
+        from functions.plots.plot_estimates import \
             plot_estimated_metrics
 
         plot_estimated_metrics(
             turbine_name=self.name,
             statistics=self.stats,
-            degree=degree
+            degree=polynomial_degree
         )
 
     def plot_regression_residuals(self) -> None:
-        from functions.plots.plot_residuals import\
+        from functions.plots.plot_residuals import \
             plot_regression_residuals
 
         plot_regression_residuals(self.hill_curve, self.stats)
 
-    def __init__(self,  degree: int = 3) -> None:
+    def five_number_stats(self):
+        return DataFrame(
+            round(
+                self.hill_curve.describe(
+                    [.1, .2, .3, .4, .5, .6, .7, .8, .9]
+                ),
+                2
+            )
+        )
+
+    def cont_mean_std(self) -> DataFrame:
+        return self.five_numbers.iloc[0:2]
+
+    def percentile(self) -> DataFrame:
+        return self.five_numbers.iloc[3:14]
+
+    def __init__(self) -> None:
+        # polynomial_degree: max degree of polynomials to be fitted
+
         self.name = "Turbine A"
         self.type = "Type no specified"
 
         self.load_data()
-        self.calculate_stats(degree=degree)
+        self.five_numbers = self.five_number_stats()
+        self.dispersion_measures = self.cont_mean_std()
+        self.position_measures = self.percentile()
 
     def __str__(self) -> str:
         return f"{self.name}: {self.type}"
-
-
-# turb = Turbine()
-#
-# print(turb.stats)
-# turb.load_data()
-# turb.net_head.plot()
-# turb.pair_plot()
